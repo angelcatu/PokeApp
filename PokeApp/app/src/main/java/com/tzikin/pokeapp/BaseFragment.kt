@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
+import com.tzikin.pokeapp.presentation.IMainActivity
 
 abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
@@ -25,8 +27,22 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         return binding.root
     }
 
+    fun navigateTo(id: NavDirections) {
+        (requireActivity() as IMainActivity).navigateTo(id)
+    }
+
+    fun showProgressBar() {
+        (requireActivity() as IMainActivity).showProgressBar()
+    }
+
+    fun hideProgressBar() {
+        (requireActivity() as IMainActivity).hideProgressBar()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding.unbind()
     }
+
+
 }

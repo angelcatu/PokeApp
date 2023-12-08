@@ -16,6 +16,10 @@ class FrontFragment : BaseFragment<FragmentFrontBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.btnStart.setOnClickListener {
+            navigateTo(FrontFragmentDirections.actionFrontFragmentToPokemonListFragment())
+        }
     }
 
 }

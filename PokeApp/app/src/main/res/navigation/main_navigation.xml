@@ -9,5 +9,13 @@
         android:id="@+id/frontFragment"
         android:name="com.tzikin.pokeapp.presentation.view.FrontFragment"
         android:label="fragment_front"
-        tools:layout="@layout/fragment_front" />
+        tools:layout="@layout/fragment_front" >
+        <action
+            android:id="@+id/action_frontFragment_to_pokemonListFragment"
+            app:destination="@id/pokemonListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pokemonListFragment"
+        android:name="com.tzikin.pokeapp.presentation.view.PokemonListFragment"
+        android:label="PokemonListFragment" />
 </navigation>
