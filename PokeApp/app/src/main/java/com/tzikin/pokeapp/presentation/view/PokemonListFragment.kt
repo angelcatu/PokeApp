@@ -1,12 +1,11 @@
 package com.tzikin.pokeapp.presentation.view
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.tzikin.pokeapp.BaseFragment
 import com.tzikin.pokeapp.R
+import com.tzikin.pokeapp.data.model.Pokemon
 import com.tzikin.pokeapp.data.network.RequestState
 import com.tzikin.pokeapp.databinding.FragmentPokemonListBinding
 import com.tzikin.pokeapp.presentation.viewmodel.PokemonListViewModel
@@ -34,6 +33,9 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
                 }
 
                 is RequestState.Success -> {
+                    response.value.let {
+                        it?.results?.let { it1 -> callToPokemonInformation(it1) }
+                    }
                     hideProgressBar()
                 }
 
@@ -46,6 +48,33 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
                 }
             }
         }
+    }
+
+    private fun callToPokemonInformation(results: List<Pokemon>) {
+
+        results.forEach {
+            viewModel.getPokemonInformation(it.name).observe(requireActivity()) { response ->
+                when (response) {
+                    is RequestState.Loading -> {
+                        showProgressBar()
+                    }
+
+                    is RequestState.Success -> {
+                        hideProgressBar()
+                    }
+
+                    is RequestState.Error -> {
+                        hideProgressBar()
+                    }
+
+                    is RequestState.NetworkError -> {
+                        hideProgressBar()
+                    }
+                }
+            }
+        }
+
+
     }
 
 }

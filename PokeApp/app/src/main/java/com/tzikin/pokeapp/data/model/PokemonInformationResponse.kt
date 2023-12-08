@@ -8,5 +8,4 @@ data class PokemonInformationResponse(
     @SerializedName("sprites") val images: Sprite,
     @SerializedName("types") val pokemonType: List<PokemonType>,
     @SerializedName("stats") val pokemonStats: List<PokemonStats>
-
 )

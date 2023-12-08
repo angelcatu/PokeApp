@@ -1,6 +1,8 @@
 package com.tzikin.pokeapp.data.repository
 
+import android.util.Log
 import com.tzikin.pokeapp.core.di.IoDispatcher
+import com.tzikin.pokeapp.data.model.PokemonInformationResponse
 import com.tzikin.pokeapp.data.model.PokemonResponse
 import com.tzikin.pokeapp.data.network.ApiResultHandle
 import com.tzikin.pokeapp.data.network.ErrorResponse
@@ -25,9 +27,16 @@ class PokemonRepository @Inject constructor(
             runCatching {
                 pokemonApi.getPokemon()
             }
-        }.toLoginResult()
+        }.toPokeListResult()
 
-    private fun Result<PokemonResponse?>.toLoginResult(): ApiResultHandle<PokemonResponse?> =
+    suspend fun getPokemonInformation(id: String): ApiResultHandle<PokemonInformationResponse?> =
+        withContext(coroutineDispatcher) {
+            runCatching {
+                pokemonApi.getPokemonInformation(id)
+            }
+        }.toPokeInfoResult()
+
+    private fun Result<PokemonResponse?>.toPokeListResult(): ApiResultHandle<PokemonResponse?> =
         when (val result = getOrNull()) {
             null -> {
                 ApiResultHandle.NetworkError(ErrorResponse(errorMessage = "Error al establecer una conexión con el servidor."))
@@ -35,6 +44,30 @@ class PokemonRepository @Inject constructor(
             result -> {
                 when (result.results.isNotEmpty()) {
                     REQUEST_SUCCESSFUL -> {
+                        ApiResultHandle.Success(result)
+                    }
+                    else -> {
+                        ApiResultHandle.ApiError(
+                            "01",
+                            ErrorResponse("Error", "Error")
+                        )
+                    }
+                }
+            }
+            else -> {
+                ApiResultHandle.NetworkError(ErrorResponse(errorMessage = "Error"))
+            }
+        }
+
+    private fun Result<PokemonInformationResponse?>.toPokeInfoResult(): ApiResultHandle<PokemonInformationResponse?> =
+        when (val result = getOrNull()) {
+            null -> {
+                ApiResultHandle.NetworkError(ErrorResponse(errorMessage = "Error al establecer una conexión con el servidor."))
+            }
+            result -> {
+                when (result.id != -1) {
+                    REQUEST_SUCCESSFUL -> {
+                        Log.i("RESPONSE ->>>", result.toString())
                         ApiResultHandle.Success(result)
                     }
                     else -> {
