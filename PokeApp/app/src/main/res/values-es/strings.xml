@@ -3,6 +3,10 @@
     <string name="app_name">PokeApp</string>
 
     <string name="btn_start">COMENZAR</string>
-    <string name="tab_one">Detalles</string>
-    <string name="tab_two">Estadísticas</string>
+    <string name="tab_one">DETALLES</string>
+    <string name="tab_two">ESTADISTICAS</string>
+
+    <string name="hp_label">HP:</string>
+    <string name="attack_label">ATAQUE:</string>
+    <string name="defense_label">DEFENSE:</string>
 </resources>

@@ -66,7 +66,12 @@ class PokemonListViewModel @Inject constructor(
                         pokemonName = it.name,
                         number = it.id,
                         pokemonImage = it.images.frontImageUrl,
-                        type = it.pokemonType[0].type.type
+                        pokemonShinyImage = it.images.fronShinyImageUrl,
+                        type = it.pokemonType[0].type.type,
+                        baseStat = it.pokemonStats[0].baseStat,
+                        effort = it.pokemonStats[0].effort,
+                        stat = it.pokemonStats[0].baseStat,
+                        statName = it.pokemonStats[0].stat.statName
                     )
                     repository.insert(value)
 

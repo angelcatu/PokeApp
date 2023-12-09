@@ -99,10 +99,4 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
             }
         }
     }
-
-    private fun addPokemonEntity(response: PokemonInformationResponse?) {
-        response?.let {
-        }
-    }
-
 }

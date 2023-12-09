@@ -1,33 +1,36 @@
 package com.tzikin.pokeapp.presentation.view
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import com.tzikin.pokeapp.BaseFragment
 import com.tzikin.pokeapp.R
+import com.tzikin.pokeapp.databinding.FragmentStatBinding
 import com.tzikin.pokeapp.presentation.viewmodel.StatViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class StatFragment : Fragment() {
+@AndroidEntryPoint
+class StatFragment : BaseFragment<FragmentStatBinding>() {
 
-    companion object {
-        fun newInstance() = StatFragment()
-    }
+    private val viewModel: StatViewModel by viewModels()
+    override val layoutId: Int
+        get() = R.layout.fragment_stat
 
-    private lateinit var viewModel: StatViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_stat, container, false)
-    }
+        val id = arguments?.getInt("pokeID")
+        id?.let { viewModel.getAllPokemonById(it) }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(StatViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel.pokemon.observe(requireActivity()){
+            binding.progressBarHP.setProgress(it.baseStat, true)
+            binding.progressBarAttk.setProgress(it.baseStat, true)
+            binding.progressBarDefense.setProgress(it.baseStat, true)
+
+            binding.valueHP.text = it.baseStat.toString()
+            binding.valueAttack.text = it.baseStat.toString()
+            binding.valueDefense.text = it.baseStat.toString()
+        }
     }
 
 }

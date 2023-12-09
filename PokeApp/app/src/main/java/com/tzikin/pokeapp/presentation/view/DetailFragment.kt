@@ -29,7 +29,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
             binding.pokeName.text = it.pokemonName
             binding.pokeNumber.text = it.number.toString()
             binding.pokeInfoType.text = it.type
-            Glide.with(requireActivity()).load(it.pokemonImage).centerCrop().into(binding.shinyImage)
+            Glide.with(requireActivity()).load(it.pokemonShinyImage).centerCrop().into(binding.shinyImage)
         }
 
     }
