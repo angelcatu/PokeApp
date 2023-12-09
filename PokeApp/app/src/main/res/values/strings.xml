@@ -8,4 +8,6 @@
     <string name="hp_label">HP:</string>
     <string name="attack_label">ATTACK:</string>
     <string name="defense_label">DEFENSE:</string>
+
+    <string name="search_pokemon">Search Pokemon!</string>
 </resources>

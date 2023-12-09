@@ -3,6 +3,8 @@ package com.tzikin.pokeapp.presentation.view
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.SearchView
+import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tzikin.pokeapp.BaseFragment
@@ -42,8 +44,16 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
         viewModel.pokemons.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 getPokemonList()
-            }else {
+            } else {
                 adapter.insertAll(it as MutableList<PokemonEntity>)
+            }
+        }
+
+        viewModel.pokeFound.observe(viewLifecycleOwner){
+            if (it!=null) {
+                adapter.insertAll(mutableListOf(it))
+            }else {
+                viewModel.getAllPokemon()
             }
         }
 
@@ -51,10 +61,36 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerView.adapter = adapter
 
-        adapter.onCardClickListener {entity ->
-            navigateTo(PokemonListFragmentDirections.actionPokemonListFragmentToInfoPokemonFragment(entity.number))
+        adapter.onCardClickListener { entity ->
+            navigateTo(
+                PokemonListFragmentDirections.actionPokemonListFragmentToInfoPokemonFragment(
+                    entity.number
+                )
+            )
         }
+
+        searchView()
     }
+
+    private fun searchView() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val isDigit = newText?.isDigitsOnly()
+                if (isDigit == true && newText != "") {
+                    viewModel.searchPokemon(newText.toInt(), newText.toString())
+                } else {
+                    viewModel.searchPokemon(-1, newText.toString())
+                }
+
+                return true
+            }
+        })
+    }
+
     private fun getPokemonList() {
         viewModel.getPokemon().observe(requireActivity()) { response ->
             when (response) {

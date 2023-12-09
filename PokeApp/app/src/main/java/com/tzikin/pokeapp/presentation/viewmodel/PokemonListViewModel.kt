@@ -15,6 +15,7 @@ import com.tzikin.pokeapp.data.repository.PokemonRepository
 import com.tzikin.pokeapp.domain.GetPokemonUseCase
 import com.tzikin.pokeapp.domain.PokemonCallUseCase
 import com.tzikin.pokeapp.domain.PokemonInformationUsecase
+import com.tzikin.pokeapp.domain.SearchPokemonUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -27,7 +28,8 @@ class PokemonListViewModel @Inject constructor(
     private val pokemonCallUseCase: PokemonCallUseCase,
     private val pokemonInformationUsecase: PokemonInformationUsecase,
     val repository: PokemonRepository,
-    private val getPokemonUseCase: GetPokemonUseCase
+    private val getPokemonUseCase: GetPokemonUseCase,
+    private val searchPokemonUsecase: SearchPokemonUsecase
 ) : ViewModel() {
 
     private var _pokemons = MutableLiveData<List<PokemonEntity>>()
@@ -35,6 +37,10 @@ class PokemonListViewModel @Inject constructor(
 
     private var _myPokes = MutableLiveData<PokemonEntity>()
     val myPokes: LiveData<PokemonEntity> = _myPokes
+
+    private var _pokeFound = MutableLiveData<PokemonEntity>()
+    val pokeFound: LiveData<PokemonEntity> = _pokeFound
+
     fun getPokemon() = liveData(viewModelScope.coroutineContext + coroutineDispatcher) {
         emit(RequestState.Loading)
         when (val response = pokemonCallUseCase.invoke()) {
@@ -89,6 +95,12 @@ class PokemonListViewModel @Inject constructor(
     fun getAllPokemon() {
         viewModelScope.launch {
             _pokemons.value = getPokemonUseCase.invoke()
+        }
+    }
+
+    fun searchPokemon(id: Int, name: String){
+        viewModelScope.launch {
+            _pokeFound.value = searchPokemonUsecase.invoke(id, name)
         }
     }
 }
