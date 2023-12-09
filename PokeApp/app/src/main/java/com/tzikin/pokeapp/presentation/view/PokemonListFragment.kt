@@ -29,27 +29,32 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getPokemonList()
+        viewModel.getAllPokemon()
 
+        binding.fab.setOnClickListener {
+            navigateTo(PokemonListFragmentDirections.actionPokemonListFragmentToFavoriteFragment())
+        }
 
-        loadPokemon()
-    }
+        viewModel.myPokes.observe(viewLifecycleOwner) {
+            adapter.insertElement(it)
+        }
 
-    private fun loadPokemon() {
-
-        viewModel.pokemonList.observe(requireActivity()) {
-            adapter =
-                PokemonAdapter(it as MutableList<PokemonEntity>)
-            binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-            binding.recyclerView.adapter = adapter
-
-            adapter.onCardClickListener {entity ->
-                navigateTo(PokemonListFragmentDirections.actionPokemonListFragmentToInfoPokemonFragment(entity.number))
+        viewModel.pokemons.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                getPokemonList()
+            }else {
+                adapter.insertAll(it as MutableList<PokemonEntity>)
             }
+        }
 
+        adapter = PokemonAdapter(mutableListOf())
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        binding.recyclerView.adapter = adapter
+
+        adapter.onCardClickListener {entity ->
+            navigateTo(PokemonListFragmentDirections.actionPokemonListFragmentToInfoPokemonFragment(entity.number))
         }
     }
-
     private fun getPokemonList() {
         viewModel.getPokemon().observe(requireActivity()) { response ->
             when (response) {
@@ -84,7 +89,6 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
                     }
 
                     is RequestState.Success -> {
-                        viewModel.getPokemonFromDB()
                         hideProgressBar()
                     }
 

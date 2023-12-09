@@ -27,18 +27,14 @@ class PokemonListViewModel @Inject constructor(
     private val pokemonCallUseCase: PokemonCallUseCase,
     private val pokemonInformationUsecase: PokemonInformationUsecase,
     val repository: PokemonRepository,
-    val getPokemonUseCase: GetPokemonUseCase,
+    private val getPokemonUseCase: GetPokemonUseCase
 ) : ViewModel() {
 
-    private var _pokemonList = MutableLiveData<List<PokemonEntity>>()
-    var pokemonList: LiveData<List<PokemonEntity>> = _pokemonList
+    private var _pokemons = MutableLiveData<List<PokemonEntity>>()
+    val pokemons: LiveData<List<PokemonEntity>> = _pokemons
 
-    fun getPokemonFromDB(){
-        viewModelScope.launch {
-            _pokemonList.value = getPokemonUseCase.invoke()
-        }
-    }
-
+    private var _myPokes = MutableLiveData<PokemonEntity>()
+    val myPokes: LiveData<PokemonEntity> = _myPokes
     fun getPokemon() = liveData(viewModelScope.coroutineContext + coroutineDispatcher) {
         emit(RequestState.Loading)
         when (val response = pokemonCallUseCase.invoke()) {
@@ -74,9 +70,9 @@ class PokemonListViewModel @Inject constructor(
                         statName = it.pokemonStats[0].stat.statName
                     )
                     repository.insert(value)
+                    _myPokes.value = value
+                    //val d = getPokemonUseCase.invoke()
 
-                    val d = getPokemonUseCase.invoke()
-                    Log.i("CANTIDAD", d.size.toString())
                 }
                 emit(RequestState.Success(response.value))
             }
@@ -87,6 +83,12 @@ class PokemonListViewModel @Inject constructor(
             is ApiResultHandle.NetworkError -> {
                 emit(RequestState.Error(response.errorNetworkMessage.error))
             }
+        }
+    }
+
+    fun getAllPokemon() {
+        viewModelScope.launch {
+            _pokemons.value = getPokemonUseCase.invoke()
         }
     }
 }

@@ -19,4 +19,8 @@ class FavoriteRepository @Inject constructor(
         pokemonDao.updateFavoritePokemon(id, value)
     }
 
+    suspend fun getAllFavorites() =
+        pokemonDao.getAllFavoritesPokemon()
+
+
 }

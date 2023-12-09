@@ -40,4 +40,16 @@ class PokemonAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(list[position], onCardClickListener)
     }
+
+    fun insertElement(element: PokemonEntity) {
+        list.add(element)
+        notifyItemInserted(list.size)
+        notifyDataSetChanged()
+    }
+
+    fun insertAll(elements: MutableList<PokemonEntity>) {
+        list.clear()
+        list.addAll(elements)
+        notifyDataSetChanged()
+    }
 }

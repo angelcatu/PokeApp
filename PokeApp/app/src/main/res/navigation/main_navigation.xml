@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_pokemonListFragment_to_infoPokemonFragment"
             app:destination="@id/infoPokemonFragment" />
+        <action
+            android:id="@+id/action_pokemonListFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/infoPokemonFragment"
@@ -30,4 +33,9 @@
             android:name="id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.tzikin.pokeapp.presentation.view.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
 </navigation>
