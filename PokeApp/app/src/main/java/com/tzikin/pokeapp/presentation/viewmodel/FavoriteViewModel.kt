@@ -8,6 +8,7 @@ import com.tzikin.pokeapp.data.database.entities.FavoritePokemon
 import com.tzikin.pokeapp.data.database.entities.PokemonEntity
 import com.tzikin.pokeapp.domain.GetAllFavoritesUseCase
 import com.tzikin.pokeapp.domain.GetPokemonById
+import com.tzikin.pokeapp.domain.SearchPokemonUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
     private val getAllFavoritesUseCase: GetAllFavoritesUseCase,
-    private val getPokemonById: GetPokemonById
+    private val getPokemonById: GetPokemonById,
+    private val searchPokemonUsecase: SearchPokemonUsecase
 ) : ViewModel() {
 
     private var _myFavoritesPokesList = MutableLiveData<List<FavoritePokemon>>()
@@ -23,6 +25,9 @@ class FavoriteViewModel @Inject constructor(
 
     private var _myPokes = MutableLiveData<PokemonEntity>()
     val myPokes: LiveData<PokemonEntity> = _myPokes
+
+    private var _pokeFound = MutableLiveData<PokemonEntity>()
+    val pokeFound: LiveData<PokemonEntity> = _pokeFound
 
     fun getAllFavorites() {
         viewModelScope.launch {
@@ -34,6 +39,12 @@ class FavoriteViewModel @Inject constructor(
         viewModelScope.launch {
            _myPokes.value = getPokemonById.invoke(id)
 
+        }
+    }
+
+    fun searchPokemon(id: Int, name: String){
+        viewModelScope.launch {
+            _pokeFound.value = searchPokemonUsecase.invoke(id, name)
         }
     }
 }

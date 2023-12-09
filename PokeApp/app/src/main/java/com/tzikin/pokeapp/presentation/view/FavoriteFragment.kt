@@ -2,6 +2,8 @@ package com.tzikin.pokeapp.presentation.view
 
 import android.os.Bundle
 import android.view.View
+import android.widget.SearchView
+import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tzikin.pokeapp.BaseFragment
@@ -37,6 +39,31 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
         viewModel.myPokes.observe(requireActivity()) {
             adapter.insertElement(it)
         }
+
+        viewModel.pokeFound.observe(viewLifecycleOwner){
+            if (it!=null) {
+                adapter.insertAll(mutableListOf(it))
+            }else {
+                viewModel.getAllFavorites()
+            }
+        }
+
+        binding.searchView2.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val isDigit = newText?.isDigitsOnly()
+                if (isDigit == true && newText != "") {
+                    viewModel.searchPokemon(newText.toInt(), newText.toString())
+                } else {
+                    viewModel.searchPokemon(-1, newText.toString())
+                }
+
+                return true
+            }
+        })
     }
 
     private fun initRecyclerView() {
