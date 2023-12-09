@@ -11,4 +11,6 @@
     <string name="defense_label">DEFENSE:</string>
 
     <string name="search_pokemon">Buscar Pokemon!</string>
+    <string name="pokemon_deleted">Pokemon ha sido eliminado</string>
+    <string name="pokemon_added">Pokemon ha sido agregado</string>
 </resources>

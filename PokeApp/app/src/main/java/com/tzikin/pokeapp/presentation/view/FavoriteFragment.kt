@@ -3,6 +3,7 @@ package com.tzikin.pokeapp.presentation.view
 import android.os.Bundle
 import android.view.View
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -68,9 +69,16 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        adapter = PokemonAdapter(mutableListOf())
+        adapter = PokemonAdapter(mutableListOf(), true)
         binding.recyclerView.adapter = adapter
 
         adapter.onCardClickListener {  }
+
+        adapter.onFavoriteClickListener { it, position ->
+            viewModel.deleteFavorite(it.number)
+            adapter.deleteFavorite(position)
+
+            Toast.makeText(requireActivity(), getString(R.string.pokemon_deleted), Toast.LENGTH_SHORT).show()
+        }
     }
 }

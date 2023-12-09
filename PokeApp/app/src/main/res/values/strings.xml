@@ -10,4 +10,7 @@
     <string name="defense_label">DEFENSE:</string>
 
     <string name="search_pokemon">Search Pokemon!</string>
+
+    <string name="pokemon_deleted">Pokemon has been deleted</string>
+    <string name="pokemon_added">Pokemon has been added</string>
 </resources>

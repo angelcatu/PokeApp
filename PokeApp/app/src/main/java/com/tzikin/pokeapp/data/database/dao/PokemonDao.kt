@@ -38,6 +38,9 @@ interface PokemonDao {
     @Query("UPDATE favorite_table SET pokemon_favorite = :newValue WHERE pokemon_number = :pokeID ")
     suspend fun updateFavoritePokemon(pokeID: Int, newValue: Boolean)
 
+    @Query("DELETE FROM favorite_table WHERE pokemon_number = :id")
+    suspend fun deleteFavorite(id: Int)
+
     @Query("SELECT * FROM favorite_table")
     suspend fun getAllFavoritesPokemon():List<FavoritePokemon>
 

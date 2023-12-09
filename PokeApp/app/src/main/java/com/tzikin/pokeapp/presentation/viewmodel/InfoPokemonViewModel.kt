@@ -10,8 +10,7 @@ import com.tzikin.pokeapp.data.database.entities.PokemonEntity
 import com.tzikin.pokeapp.domain.GetFavoriteUseCase
 import com.tzikin.pokeapp.domain.GetPokemonById
 import com.tzikin.pokeapp.domain.InsertFavoriteUsecase
-import com.tzikin.pokeapp.domain.UpdateFavoriteUseCase
-import dagger.hilt.android.AndroidEntryPoint
+import com.tzikin.pokeapp.domain.DeleteFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InfoPokemonViewModel @Inject constructor(
     private val getPokemonById: GetPokemonById,
-    private val updateFavoriteUseCase: UpdateFavoriteUseCase,
+    private val updateFavoriteUseCase: DeleteFavoriteUseCase,
     private val getFavoriteUseCase: GetFavoriteUseCase,
     private val insertFavoriteUsecase: InsertFavoriteUsecase
 ): ViewModel() {
@@ -47,9 +46,9 @@ class InfoPokemonViewModel @Inject constructor(
             ))
         }
     }
-    fun updateFavoriteState(id: Int, value: Boolean) {
+    fun updateFavoriteState(id: Int) {
         viewModelScope.launch {
-            updateFavoriteUseCase.invoke(id, value)
+            updateFavoriteUseCase.invoke(id)
         }
     }
 

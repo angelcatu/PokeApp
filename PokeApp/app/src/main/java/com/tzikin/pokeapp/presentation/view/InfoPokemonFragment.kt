@@ -2,6 +2,7 @@ package com.tzikin.pokeapp.presentation.view
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -42,10 +43,13 @@ class InfoPokemonFragment : BaseFragment<FragmentInfoPokemonBinding>() {
         binding.favoriteIc.setOnClickListener {
             if (viewModel.pokemonIsFavorite.value == true){
                 viewModel.setFavorite(false)
-                viewModel.updateFavoriteState(args.id, false)
+                viewModel.updateFavoriteState(args.id)
+                Toast.makeText(requireActivity(), getString(R.string.pokemon_deleted), Toast.LENGTH_SHORT).show()
             }else {
                 viewModel.setFavorite(true)
                 viewModel.insertFavoritePokemon(args.id)
+
+                Toast.makeText(requireActivity(), getString(R.string.pokemon_added), Toast.LENGTH_SHORT).show()
             }
         }
 

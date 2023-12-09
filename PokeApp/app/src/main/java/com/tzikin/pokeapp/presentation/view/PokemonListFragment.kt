@@ -68,6 +68,7 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
                 )
             )
         }
+        adapter.onFavoriteClickListener { _, _ ->  }
 
         searchView()
     }

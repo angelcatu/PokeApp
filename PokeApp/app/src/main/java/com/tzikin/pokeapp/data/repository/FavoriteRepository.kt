@@ -15,8 +15,8 @@ class FavoriteRepository @Inject constructor(
     suspend fun isFavorite(id: Int) =
         pokemonDao.getFavoritePokemon(id)
 
-    suspend fun updateFavorite(id: Int, value: Boolean) {
-        pokemonDao.updateFavoritePokemon(id, value)
+    suspend fun deleteFavorite(id: Int) {
+        pokemonDao.deleteFavorite(id)
     }
 
     suspend fun getAllFavorites() =

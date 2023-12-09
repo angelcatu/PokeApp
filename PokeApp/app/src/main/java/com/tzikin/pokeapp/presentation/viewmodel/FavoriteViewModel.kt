@@ -9,6 +9,7 @@ import com.tzikin.pokeapp.data.database.entities.PokemonEntity
 import com.tzikin.pokeapp.domain.GetAllFavoritesUseCase
 import com.tzikin.pokeapp.domain.GetPokemonById
 import com.tzikin.pokeapp.domain.SearchPokemonUsecase
+import com.tzikin.pokeapp.domain.DeleteFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +18,8 @@ import javax.inject.Inject
 class FavoriteViewModel @Inject constructor(
     private val getAllFavoritesUseCase: GetAllFavoritesUseCase,
     private val getPokemonById: GetPokemonById,
-    private val searchPokemonUsecase: SearchPokemonUsecase
+    private val searchPokemonUsecase: SearchPokemonUsecase,
+    private val deleteFavoriteUseCase: DeleteFavoriteUseCase
 ) : ViewModel() {
 
     private var _myFavoritesPokesList = MutableLiveData<List<FavoritePokemon>>()
@@ -39,6 +41,12 @@ class FavoriteViewModel @Inject constructor(
         viewModelScope.launch {
            _myPokes.value = getPokemonById.invoke(id)
 
+        }
+    }
+
+    fun deleteFavorite(id: Int) {
+        viewModelScope.launch {
+            deleteFavoriteUseCase.invoke(id)
         }
     }
 
