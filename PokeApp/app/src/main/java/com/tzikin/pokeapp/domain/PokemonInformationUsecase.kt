@@ -1,5 +1,6 @@
 package com.tzikin.pokeapp.domain
 
+import com.tzikin.pokeapp.data.database.entities.PokemonEntity
 import com.tzikin.pokeapp.data.model.PokemonInformationResponse
 import com.tzikin.pokeapp.data.network.ApiResultHandle
 import com.tzikin.pokeapp.data.repository.PokemonRepository

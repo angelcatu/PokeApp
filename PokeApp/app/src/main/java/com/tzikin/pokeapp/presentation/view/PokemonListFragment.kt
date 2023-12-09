@@ -1,13 +1,18 @@
 package com.tzikin.pokeapp.presentation.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.tzikin.pokeapp.BaseFragment
 import com.tzikin.pokeapp.R
+import com.tzikin.pokeapp.data.database.entities.PokemonEntity
 import com.tzikin.pokeapp.data.model.Pokemon
+import com.tzikin.pokeapp.data.model.PokemonInformationResponse
 import com.tzikin.pokeapp.data.network.RequestState
 import com.tzikin.pokeapp.databinding.FragmentPokemonListBinding
+import com.tzikin.pokeapp.presentation.adapter.PokemonAdapter
 import com.tzikin.pokeapp.presentation.viewmodel.PokemonListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,6 +21,8 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
 
     private val viewModel: PokemonListViewModel by viewModels()
 
+    private lateinit var adapter: PokemonAdapter
+
     override val layoutId: Int
         get() = R.layout.fragment_pokemon_list
 
@@ -23,6 +30,24 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         getPokemonList()
+
+
+        loadPokemon()
+    }
+
+    private fun loadPokemon() {
+
+        viewModel.pokemonList.observe(requireActivity()) {
+            adapter =
+                PokemonAdapter(it as MutableList<PokemonEntity>)
+            binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+            binding.recyclerView.adapter = adapter
+
+            adapter.onCardClickListener {
+
+            }
+
+        }
     }
 
     private fun getPokemonList() {
@@ -51,7 +76,6 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
     }
 
     private fun callToPokemonInformation(results: List<Pokemon>) {
-
         results.forEach {
             viewModel.getPokemonInformation(it.name).observe(requireActivity()) { response ->
                 when (response) {
@@ -60,6 +84,7 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
                     }
 
                     is RequestState.Success -> {
+                        viewModel.getPokemonFromDB()
                         hideProgressBar()
                     }
 
@@ -73,8 +98,11 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
                 }
             }
         }
+    }
 
-
+    private fun addPokemonEntity(response: PokemonInformationResponse?) {
+        response?.let {
+        }
     }
 
 }
