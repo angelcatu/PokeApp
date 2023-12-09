@@ -14,3 +14,5 @@
 #### 4. Finalmente la pantalla de favoritos, desplegara una lista de todos los pokemones favoritos que haya agregado a su inventario. Para acceder a esta pantalla
 #### presionar el boton flotante inferior en la pantalla principal. En esta pantalla es posible eliminar pokemons para siempre, y si quiere agregarlos una vez mas es necesario buscarlos
 #### nuevamnte en la pantalla principal. Tambien cuenta con un buscador personalizado de pokemons por nombre o por numero.
+-----
+## En el proyecto podran encontrar el apk para su prueba.
