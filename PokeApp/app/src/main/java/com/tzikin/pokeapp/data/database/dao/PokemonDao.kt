@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.tzikin.pokeapp.data.database.entities.FavoritePokemon
 import com.tzikin.pokeapp.data.database.entities.PokemonEntity
 
 @Dao
@@ -23,5 +24,15 @@ interface PokemonDao {
 
     @Insert
     suspend fun insert(pokemon: PokemonEntity)
+
+    // Favorites
+    @Insert
+    suspend fun insertFavorite(favoritePokemon: FavoritePokemon)
+
+    @Query("SELECT * FROM favorite_table where pokemon_number = :pokeID")
+    suspend fun getFavoritePokemon(pokeID: Int): FavoritePokemon?
+
+    @Query("UPDATE favorite_table SET pokemon_favorite = :newValue WHERE pokemon_number = :pokeID ")
+    suspend fun updateFavoritePokemon(pokeID: Int, newValue: Boolean)
 
 }

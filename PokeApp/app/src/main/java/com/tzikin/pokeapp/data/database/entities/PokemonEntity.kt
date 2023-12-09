@@ -21,11 +21,11 @@ data class PokemonEntity(
 
 )
 
-@Entity
-data class PokemonStatEntity(
+@Entity(tableName = "favorite_table")
+data class FavoritePokemon(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") val id: Int = 0,
-    @ColumnInfo(name = "pokemon_name") val pokemonName: String,
-    @ColumnInfo(name = "pokemon_number") val number: Int,
-
+    @ColumnInfo(name = "pokemon_favorite") val isFavorite: Boolean = false,
+    @ColumnInfo(name = "pokemon_number") val idPokemon: Int
 )
+
