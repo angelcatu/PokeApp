@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            tools:context=".presentation.view.DetailFragment">
+
+            <ImageView
+                android:id="@+id/shinyImage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="32dp"
+                android:src="@android:color/background_dark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/pokeInfoType"
+                app:layout_constraintTop_toBottomOf="@+id/pokeInfoType" />
+
+            <TextView
+                android:id="@+id/pokeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="Nombre pokemon"
+                android:textColor="@color/black_pokeball"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/pokeNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Numero de pokemon"
+                app:layout_constraintEnd_toEndOf="@+id/pokeName"
+                app:layout_constraintStart_toStartOf="@+id/pokeName"
+                app:layout_constraintTop_toBottomOf="@+id/pokeName" />
+
+            <TextView
+                android:id="@+id/pokeInfoType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Tipo de pokemon"
+                android:padding="8dp"
+                android:textColor="@color/black_pokeball"
+                android:background="@drawable/bg_poke_type"
+                app:layout_constraintStart_toStartOf="@+id/pokeNumber"
+                app:layout_constraintTop_toBottomOf="@+id/pokeNumber" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Shiny"
+                android:textSize="16sp"
+                android:textColor="@color/black_pokeball"
+                app:layout_constraintEnd_toEndOf="@+id/shinyImage"
+                app:layout_constraintStart_toStartOf="@+id/shinyImage"
+                app:layout_constraintTop_toBottomOf="@+id/shinyImage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</layout>

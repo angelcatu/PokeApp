@@ -43,8 +43,8 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
             binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
             binding.recyclerView.adapter = adapter
 
-            adapter.onCardClickListener {
-
+            adapter.onCardClickListener {entity ->
+                navigateTo(PokemonListFragmentDirections.actionPokemonListFragmentToInfoPokemonFragment(entity.number))
             }
 
         }

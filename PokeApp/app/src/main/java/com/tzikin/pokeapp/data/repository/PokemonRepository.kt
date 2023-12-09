@@ -40,6 +40,8 @@ class PokemonRepository @Inject constructor(
     suspend fun getAllPokemonFromDB(): List<PokemonEntity> =
         pokemonDao.getAllPokemon()
 
+    suspend fun getPokemonById(id: Int) : PokemonEntity =
+        pokemonDao.getByPokemonId(id)
 
     suspend fun getPokemonList(): ApiResultHandle<PokemonResponse?> =
         withContext(coroutineDispatcher) {

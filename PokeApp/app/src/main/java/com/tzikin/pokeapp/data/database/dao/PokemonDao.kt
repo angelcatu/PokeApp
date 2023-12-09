@@ -12,6 +12,9 @@ interface PokemonDao {
     @Query("SELECT * FROM pokemon_table ORDER BY pokemon_name DESC")
     suspend fun getAllPokemon():List<PokemonEntity>
 
+    @Query("SELECT * FROM pokemon_table where pokemon_number = :id")
+    suspend fun getByPokemonId(id: Int): PokemonEntity
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(pokemon:List<PokemonEntity>)
 

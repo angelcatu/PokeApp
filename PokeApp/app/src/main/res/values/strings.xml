@@ -2,4 +2,6 @@
     <string name="app_name">PokeApp</string>
 
     <string name="btn_start">START</string>
+    <string name="tab_one">Details</string>
+    <string name="tab_two">Stats</string>
 </resources>
