@@ -40,7 +40,6 @@ class FavoriteViewModel @Inject constructor(
     fun getPokemonById(id: Int) {
         viewModelScope.launch {
            _myPokes.value = getPokemonById.invoke(id)
-
         }
     }
 

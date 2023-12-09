@@ -67,6 +67,9 @@ class PokemonAdapter(
         notifyDataSetChanged()
     }
 
+    fun clearList() {
+        list.clear()
+    }
     fun insertAll(elements: MutableList<PokemonEntity>) {
         list.clear()
         list.addAll(elements)

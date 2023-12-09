@@ -34,13 +34,18 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
         viewModel.getAllFavorites()
 
         viewModel.myFavoritePokesList.observe(requireActivity()) {
-            
-            if (it.isNotEmpty()){
-                it.forEach {favoriteId ->
+
+            adapter.clearList()
+            if (it.isNotEmpty()) {
+                it.forEach { favoriteId ->
                     viewModel.getPokemonById(favoriteId.idPokemon)
-                }   
-            }else {
-                Toast.makeText(requireActivity(), getString(R.string.no_favorites), Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(
+                    requireActivity(),
+                    getString(R.string.no_favorites),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -48,11 +53,9 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
             adapter.insertElement(it)
         }
 
-        viewModel.pokeFound.observe(viewLifecycleOwner){
-            if (it!=null) {
+        viewModel.pokeFound.observe(viewLifecycleOwner) {
+            if (it != null) {
                 adapter.insertAll(mutableListOf(it))
-            }else {
-                viewModel.getAllFavorites()
             }
         }
 
@@ -66,7 +69,9 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
                 if (isDigit == true && newText != "") {
                     viewModel.searchPokemon(newText.toInt(), newText.toString())
                 } else {
-                    viewModel.searchPokemon(-1, newText.toString())
+                    if (newText.toString() != "")
+                        viewModel.searchPokemon(-1, newText.toString())
+                    else viewModel.getAllFavorites()
                 }
 
                 return true
@@ -79,13 +84,17 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
         adapter = PokemonAdapter(mutableListOf(), true)
         binding.recyclerView.adapter = adapter
 
-        adapter.onCardClickListener {  }
+        adapter.onCardClickListener { }
 
         adapter.onFavoriteClickListener { it, position ->
             viewModel.deleteFavorite(it.number)
             adapter.deleteFavorite(position)
 
-            Toast.makeText(requireActivity(), getString(R.string.pokemon_deleted), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireActivity(),
+                getString(R.string.pokemon_deleted),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }
