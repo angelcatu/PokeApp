@@ -17,4 +17,6 @@
     <string name="favorites_title">My favorites</string>
     <string name="my_pokes_title">My pokemon</string>
     <string name="my_pokemon_information">The pokemon information</string>
+
+    <string name="no_favorites">You have to add favorites pokemon</string>
 </resources>

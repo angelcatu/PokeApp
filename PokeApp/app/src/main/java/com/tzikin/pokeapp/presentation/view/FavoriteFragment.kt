@@ -34,8 +34,13 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
         viewModel.getAllFavorites()
 
         viewModel.myFavoritePokesList.observe(requireActivity()) {
-            it.forEach {favoriteId ->
-                viewModel.getPokemonById(favoriteId.idPokemon)
+            
+            if (it.isNotEmpty()){
+                it.forEach {favoriteId ->
+                    viewModel.getPokemonById(favoriteId.idPokemon)
+                }   
+            }else {
+                Toast.makeText(requireActivity(), getString(R.string.no_favorites), Toast.LENGTH_SHORT).show()
             }
         }
 

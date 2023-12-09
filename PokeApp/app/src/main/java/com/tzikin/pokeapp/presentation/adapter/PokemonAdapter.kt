@@ -36,7 +36,7 @@ class PokemonAdapter(
             if (fromFavoriteScreen) binding.favoriteIcon.visibility = View.VISIBLE
             else binding.favoriteIcon.visibility = View.GONE
 
-            binding.pokemonNumber.text = pokemonEntity.number.toString()
+            binding.pokemonNumber.text = pokemonEntity.type
             binding.pokemonName.text = pokemonEntity.pokemonName
             Glide.with(binding.root).load(pokemonEntity.pokemonImage).centerCrop().into(binding.pokemonIMG)
 
