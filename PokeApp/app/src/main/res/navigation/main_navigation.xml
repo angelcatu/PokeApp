@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_front" >
         <action
             android:id="@+id/action_frontFragment_to_pokemonListFragment"
-            app:destination="@id/pokemonListFragment" />
+            app:destination="@id/pokemonListFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/frontFragment"/>
     </fragment>
     <fragment
         android:id="@+id/pokemonListFragment"

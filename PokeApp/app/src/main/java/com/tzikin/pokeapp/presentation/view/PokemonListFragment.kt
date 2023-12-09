@@ -31,6 +31,9 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        hideToolbar(false)
+        setToolbarTitle(getString(R.string.my_pokes_title))
+
         viewModel.getAllPokemon()
 
         binding.fab.setOnClickListener {

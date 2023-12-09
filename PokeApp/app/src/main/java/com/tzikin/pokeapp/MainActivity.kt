@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         }
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -40,5 +42,14 @@ class MainActivity : AppCompatActivity(), IMainActivity {
 
     override fun hideProgressBar() {
         binding.progressBar.visibility = View.GONE
+    }
+
+    override fun setToolbarTitle(value: String) {
+        binding.toolbar.title = value
+    }
+
+    override fun hideToolbar(value: Boolean) {
+        if (value) binding.toolbar.visibility = View.GONE
+        else binding.toolbar.visibility = View.VISIBLE
     }
 }

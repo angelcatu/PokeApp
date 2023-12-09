@@ -18,4 +18,12 @@ interface IMainActivity {
      * Used to hide progressBar when the api call is finished
      */
     fun hideProgressBar()
+
+    /**
+     * Used to change the toolbar's title
+     */ fun setToolbarTitle(value: String)
+
+    /**
+     * Used to hice the toolbar
+     */ fun hideToolbar(value: Boolean)
 }

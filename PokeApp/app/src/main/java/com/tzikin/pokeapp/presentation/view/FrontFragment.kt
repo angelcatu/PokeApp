@@ -19,6 +19,8 @@ class FrontFragment : BaseFragment<FragmentFrontBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        hideToolbar(true)
+
         binding.btnStart.setOnClickListener {
             navigateTo(FrontFragmentDirections.actionFrontFragmentToPokemonListFragment())
         }

@@ -27,6 +27,9 @@ class InfoPokemonFragment : BaseFragment<FragmentInfoPokemonBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        hideToolbar(false)
+        setToolbarTitle(getString(R.string.my_pokemon_information))
+
         viewModel.getFavoritePokemon(args.id)
         viewModel.getAllPokemonById(args.id)
 

@@ -27,6 +27,8 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        hideToolbar(false)
+        setToolbarTitle(getString(R.string.favorites_title))
 
         initRecyclerView()
         viewModel.getAllFavorites()

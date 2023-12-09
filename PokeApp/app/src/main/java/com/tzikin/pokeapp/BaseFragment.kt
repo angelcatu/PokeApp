@@ -39,6 +39,14 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         (requireActivity() as IMainActivity).hideProgressBar()
     }
 
+    fun setToolbarTitle(value: String) {
+        (requireActivity() as IMainActivity).setToolbarTitle(value)
+    }
+
+    fun hideToolbar(value: Boolean) {
+        (requireActivity() as IMainActivity).hideToolbar(value)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding.unbind()

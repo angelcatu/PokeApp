@@ -13,4 +13,8 @@
     <string name="search_pokemon">Buscar Pokemon!</string>
     <string name="pokemon_deleted">Pokemon ha sido eliminado</string>
     <string name="pokemon_added">Pokemon ha sido agregado</string>
+
+    <string name="favorites_title">Mis favoritos</string>
+    <string name="my_pokes_title">Mis pokemon</string>
+    <string name="my_pokemon_information">Informacion del pokemon</string>
 </resources>
