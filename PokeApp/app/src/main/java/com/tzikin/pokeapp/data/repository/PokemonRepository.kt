@@ -29,9 +29,9 @@ class PokemonRepository @Inject constructor(
         pokemonDao.insertAll(quotes)
     }
 
-    suspend fun insert(value: PokemonEntity) {
+    suspend fun insert(value: PokemonEntity) =
         pokemonDao.insert(value)
-    }
+
 
     suspend fun deleteAll() {
         pokemonDao.deleteAllPokemon()
@@ -40,7 +40,7 @@ class PokemonRepository @Inject constructor(
     suspend fun getAllPokemonFromDB(): List<PokemonEntity> =
         pokemonDao.getAllPokemon()
 
-    suspend fun getPokemonById(id: Int) : PokemonEntity =
+    suspend fun getPokemonById(id: Long) : PokemonEntity =
         pokemonDao.getByPokemonId(id)
 
     suspend fun searchPokemonBy(id: Int, name: String) = pokemonDao.searchPokemonBy(id, name)

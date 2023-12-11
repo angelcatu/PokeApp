@@ -12,10 +12,10 @@ class FavoriteRepository @Inject constructor(
         pokemonDao.insertFavorite(favoritePokemon = element)
     }
 
-    suspend fun isFavorite(id: Int) =
+    suspend fun isFavorite(id: Long) =
         pokemonDao.getFavoritePokemon(id)
 
-    suspend fun deleteFavorite(id: Int) {
+    suspend fun deleteFavorite(id: Long) {
         pokemonDao.deleteFavorite(id)
     }
 

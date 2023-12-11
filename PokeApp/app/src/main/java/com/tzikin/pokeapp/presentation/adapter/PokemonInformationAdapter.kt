@@ -9,7 +9,7 @@ import com.tzikin.pokeapp.presentation.view.StatFragment
 class PokemonInformationAdapter(
     fragment: Fragment,
     private val numPages: Int,
-    val id: Int
+    val id: Long
 ) :
     FragmentStateAdapter(fragment) {
 
@@ -24,7 +24,7 @@ class PokemonInformationAdapter(
         val fragment: Fragment
         when (position) {
             detail -> {
-                fragment  = DetailFragment()
+                fragment = DetailFragment()
             }
 
             stat -> {
@@ -37,7 +37,7 @@ class PokemonInformationAdapter(
             }
         }
         val bundle = Bundle()
-        bundle.putInt("pokeID", id)
+        bundle.putLong("pokeID", id)
         fragment.arguments = bundle
 
         return fragment

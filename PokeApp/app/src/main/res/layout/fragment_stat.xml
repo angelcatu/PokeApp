@@ -8,123 +8,16 @@
         android:background="@color/white"
         tools:context=".presentation.view.StatFragment">
 
-
-        <ProgressBar
-            android:id="@+id/progressBarHP"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:max="100"
-            app:layout_constraintEnd_toStartOf="@+id/valueHP"
-            app:layout_constraintStart_toStartOf="@+id/hpTxt"
-            app:layout_constraintTop_toBottomOf="@+id/hpTxt" />
-
-        <ProgressBar
-            android:id="@+id/progressBarAttk"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:max="100"
-            app:layout_constraintEnd_toStartOf="@+id/valueAttack"
-            app:layout_constraintStart_toStartOf="@+id/attackTxt"
-            app:layout_constraintTop_toBottomOf="@+id/attackTxt" />
-
-        <ProgressBar
-            android:id="@+id/progressBarDefense"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:max="100"
-            app:layout_constraintEnd_toStartOf="@+id/valueDefense"
-            app:layout_constraintStart_toStartOf="@+id/defenseTxt"
-            app:layout_constraintTop_toBottomOf="@+id/defenseTxt" />
-
-        <TextView
-            android:id="@+id/hpTxt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:text="@string/hp_label"
-            android:textStyle="bold"
-            android:textColor="@color/red_background"
-            android:textSize="16sp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewStats"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/attackTxt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/attack_label"
-            android:textStyle="bold"
-            android:textColor="@color/red_background"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/hpTxt"
-            app:layout_constraintStart_toStartOf="@+id/hpTxt"
-            app:layout_constraintTop_toBottomOf="@+id/progressBarHP" />
-
-        <TextView
-            android:id="@+id/defenseTxt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/defense_label"
-            android:textStyle="bold"
-            android:textColor="@color/red_background"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/attackTxt"
-            app:layout_constraintStart_toStartOf="@+id/attackTxt"
-            app:layout_constraintTop_toBottomOf="@+id/progressBarAttk" />
-
-        <TextView
-            android:id="@+id/valueHP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="100"
-            android:textAlignment="center"
-            android:textColor="@color/blue"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/progressBarHP"
-            app:layout_constraintEnd_toEndOf="@+id/hpTxt"
-            app:layout_constraintTop_toTopOf="@+id/progressBarHP" />
-
-        <TextView
-            android:id="@+id/valueAttack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="100"
-            android:textAlignment="center"
-            android:textColor="@color/blue"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/progressBarAttk"
-            app:layout_constraintEnd_toEndOf="@+id/hpTxt"
-            app:layout_constraintStart_toEndOf="@+id/progressBarAttk"
-            app:layout_constraintTop_toTopOf="@+id/progressBarAttk" />
-
-        <TextView
-            android:id="@+id/valueDefense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="100"
-            android:textAlignment="center"
-            android:textColor="@color/blue"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/progressBarDefense"
-            app:layout_constraintEnd_toEndOf="@+id/defenseTxt"
-            app:layout_constraintStart_toEndOf="@+id/progressBarDefense"
-            app:layout_constraintTop_toTopOf="@+id/progressBarDefense" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

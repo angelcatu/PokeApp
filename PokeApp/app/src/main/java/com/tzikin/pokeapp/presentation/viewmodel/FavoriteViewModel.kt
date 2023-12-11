@@ -37,13 +37,13 @@ class FavoriteViewModel @Inject constructor(
         }
     }
 
-    fun getPokemonById(id: Int) {
+    fun getPokemonById(id: Long) {
         viewModelScope.launch {
            _myPokes.value = getPokemonById.invoke(id)
         }
     }
 
-    fun deleteFavorite(id: Int) {
+    fun deleteFavorite(id: Long) {
         viewModelScope.launch {
             deleteFavoriteUseCase.invoke(id)
         }

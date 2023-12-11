@@ -22,7 +22,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val id = arguments?.getInt("pokeID")
+        val id = arguments?.getLong("pokeID")
         id?.let { viewModel.getAllPokemonById(it) }
 
         viewModel.pokemon.observe(requireActivity()) {

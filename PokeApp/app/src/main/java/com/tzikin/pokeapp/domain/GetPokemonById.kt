@@ -7,7 +7,7 @@ class GetPokemonById @Inject constructor(
     private val repository: PokemonRepository
 ) {
 
-    suspend operator fun invoke(id: Int) =
+    suspend operator fun invoke(id: Long) =
         repository.getPokemonById(id)
 
 }

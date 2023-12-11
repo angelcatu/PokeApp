@@ -87,7 +87,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
         adapter.onCardClickListener { }
 
         adapter.onFavoriteClickListener { it, position ->
-            viewModel.deleteFavorite(it.number)
+            viewModel.deleteFavorite(it.id)
             adapter.deleteFavorite(position)
 
             Toast.makeText(

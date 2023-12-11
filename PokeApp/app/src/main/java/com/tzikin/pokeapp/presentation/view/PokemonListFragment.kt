@@ -11,7 +11,6 @@ import com.tzikin.pokeapp.BaseFragment
 import com.tzikin.pokeapp.R
 import com.tzikin.pokeapp.data.database.entities.PokemonEntity
 import com.tzikin.pokeapp.data.model.Pokemon
-import com.tzikin.pokeapp.data.model.PokemonInformationResponse
 import com.tzikin.pokeapp.data.network.RequestState
 import com.tzikin.pokeapp.databinding.FragmentPokemonListBinding
 import com.tzikin.pokeapp.presentation.adapter.PokemonAdapter
@@ -37,7 +36,17 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
         viewModel.getAllPokemon()
 
         binding.fab.setOnClickListener {
-            navigateTo(PokemonListFragmentDirections.actionPokemonListFragmentToFavoriteFragment())
+            //navigateTo(PokemonListFragmentDirections.actionPokemonListFragmentToFavoriteFragment())
+            viewModel.getStatAndName(50)
+            viewModel.getPokemonStat()
+        }
+
+        viewModel.statAndNameList.observe(viewLifecycleOwner) {
+            Log.i("ListaStat", it.toString())
+        }
+
+        viewModel.pokemonAndStatList.observe(viewLifecycleOwner) {
+            Log.i("ListaPokemonStat", it.toString())
         }
 
         viewModel.myPokes.observe(viewLifecycleOwner) {
@@ -67,7 +76,7 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
         adapter.onCardClickListener { entity ->
             navigateTo(
                 PokemonListFragmentDirections.actionPokemonListFragmentToInfoPokemonFragment(
-                    entity.number
+                    entity.id
                 )
             )
         }

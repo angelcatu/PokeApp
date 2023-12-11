@@ -32,13 +32,13 @@ class InfoPokemonViewModel @Inject constructor(
     fun setFavorite(value: Boolean) {
         _pokemonIsFavorite.value = value
     }
-    fun getAllPokemonById(id: Int) {
+    fun getAllPokemonById(id: Long) {
         viewModelScope.launch {
             _pokemon.value = getPokemonById.invoke(id)
         }
     }
 
-    fun insertFavoritePokemon(id: Int) {
+    fun insertFavoritePokemon(id: Long) {
         viewModelScope.launch {
             insertFavoriteUsecase.invoke(FavoritePokemon(
                 isFavorite = true,
@@ -46,13 +46,13 @@ class InfoPokemonViewModel @Inject constructor(
             ))
         }
     }
-    fun updateFavoriteState(id: Int) {
+    fun updateFavoriteState(id: Long) {
         viewModelScope.launch {
             updateFavoriteUseCase.invoke(id)
         }
     }
 
-    fun getFavoritePokemon(id: Int) {
+    fun getFavoritePokemon(id: Long) {
         viewModelScope.launch {
            _pokemonIsFavorite.value = getFavoriteUseCase.invoke(id)
         }

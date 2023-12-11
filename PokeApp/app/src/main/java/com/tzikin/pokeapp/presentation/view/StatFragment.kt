@@ -3,9 +3,11 @@ package com.tzikin.pokeapp.presentation.view
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.tzikin.pokeapp.BaseFragment
 import com.tzikin.pokeapp.R
 import com.tzikin.pokeapp.databinding.FragmentStatBinding
+import com.tzikin.pokeapp.presentation.adapter.PokemonStatAdapter
 import com.tzikin.pokeapp.presentation.viewmodel.StatViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,21 +18,25 @@ class StatFragment : BaseFragment<FragmentStatBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_stat
 
+    private lateinit var statAdapter: PokemonStatAdapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val id = arguments?.getInt("pokeID")
-        id?.let { viewModel.getAllPokemonById(it) }
+        val id = arguments?.getLong("pokeID")
+        id?.let { viewModel.getAllPokemonStat(it) }
 
-        viewModel.pokemon.observe(requireActivity()){
-            binding.progressBarHP.setProgress(it.baseStat, true)
-            binding.progressBarAttk.setProgress(it.baseStat, true)
-            binding.progressBarDefense.setProgress(it.baseStat, true)
+        initRecyclerView()
 
-            binding.valueHP.text = it.baseStat.toString()
-            binding.valueAttack.text = it.baseStat.toString()
-            binding.valueDefense.text = it.baseStat.toString()
+        viewModel.pokemon.observe(viewLifecycleOwner) {
+            statAdapter.addAllStats(it)
         }
+    }
+
+    private fun initRecyclerView() {
+        statAdapter = PokemonStatAdapter()
+        binding.recyclerViewStats.layoutManager = LinearLayoutManager(requireActivity())
+        binding.recyclerViewStats.adapter = statAdapter
     }
 
 }

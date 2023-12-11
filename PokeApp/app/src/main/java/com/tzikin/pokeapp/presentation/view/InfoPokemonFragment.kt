@@ -22,7 +22,7 @@ class InfoPokemonFragment : BaseFragment<FragmentInfoPokemonBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_info_pokemon
 
-    private val args: InfoPokemonFragmentArgs by navArgs()
+    private val argsD: InfoPokemonFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,8 +30,8 @@ class InfoPokemonFragment : BaseFragment<FragmentInfoPokemonBinding>() {
         hideToolbar(false)
         setToolbarTitle(getString(R.string.my_pokemon_information))
 
-        viewModel.getFavoritePokemon(args.id)
-        viewModel.getAllPokemonById(args.id)
+        viewModel.getFavoritePokemon(argsD.id)
+        viewModel.getAllPokemonById(argsD.id)
 
         tabLayoutSetting()
         observers()
@@ -46,11 +46,11 @@ class InfoPokemonFragment : BaseFragment<FragmentInfoPokemonBinding>() {
         binding.favoriteIc.setOnClickListener {
             if (viewModel.pokemonIsFavorite.value == true){
                 viewModel.setFavorite(false)
-                viewModel.updateFavoriteState(args.id)
+                viewModel.updateFavoriteState(argsD.id.toLong())
                 Toast.makeText(requireActivity(), getString(R.string.pokemon_deleted), Toast.LENGTH_SHORT).show()
             }else {
                 viewModel.setFavorite(true)
-                viewModel.insertFavoritePokemon(args.id)
+                viewModel.insertFavoritePokemon(argsD.id.toLong())
 
                 Toast.makeText(requireActivity(), getString(R.string.pokemon_added), Toast.LENGTH_SHORT).show()
             }
@@ -65,10 +65,10 @@ class InfoPokemonFragment : BaseFragment<FragmentInfoPokemonBinding>() {
         }
     }
     private fun tabLayoutSetting(){
-        val adapter = PokemonInformationAdapter(this, 2, args.id)
+        val adapter = PokemonInformationAdapter(this, 2, argsD.id.toLong())
         binding.viewPagerContent.adapter = adapter
 
-        TabLayoutMediator(binding.tabLayout, binding.viewPagerContent) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.viewPagerContent) { _, _ ->
 
         }.attach()
 

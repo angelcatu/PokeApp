@@ -19,7 +19,7 @@ class DetailViewModel @Inject constructor(
     private var _pokemon = MutableLiveData<PokemonEntity>()
     val pokemon: LiveData<PokemonEntity> = _pokemon
 
-    fun getAllPokemonById(id: Int) {
+    fun getAllPokemonById(id: Long) {
         viewModelScope.launch {
             _pokemon.value = getPokemonById.invoke(id)
         }
