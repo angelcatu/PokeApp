@@ -1,7 +1,6 @@
 package com.tzikin.pokeapp.presentation.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.SearchView
 import androidx.core.text.isDigitsOnly
@@ -36,17 +35,7 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
         viewModel.getAllPokemon()
 
         binding.fab.setOnClickListener {
-            //navigateTo(PokemonListFragmentDirections.actionPokemonListFragmentToFavoriteFragment())
-            viewModel.getStatAndName(50)
-            viewModel.getPokemonStat()
-        }
-
-        viewModel.statAndNameList.observe(viewLifecycleOwner) {
-            Log.i("ListaStat", it.toString())
-        }
-
-        viewModel.pokemonAndStatList.observe(viewLifecycleOwner) {
-            Log.i("ListaPokemonStat", it.toString())
+            navigateTo(PokemonListFragmentDirections.actionPokemonListFragmentToFavoriteFragment())
         }
 
         viewModel.myPokes.observe(viewLifecycleOwner) {

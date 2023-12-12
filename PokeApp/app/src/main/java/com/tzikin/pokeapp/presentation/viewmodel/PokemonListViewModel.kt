@@ -1,29 +1,31 @@
 package com.tzikin.pokeapp.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.tzikin.pokeapp.core.di.IoDispatcher
 import com.tzikin.pokeapp.core.di.MainDispatcher
-import com.tzikin.pokeapp.data.database.entities.PokemonAndStat
 import com.tzikin.pokeapp.data.database.entities.PokemonEntity
 import com.tzikin.pokeapp.data.database.entities.PokemonStat
-import com.tzikin.pokeapp.data.database.entities.PokemonStatAndName
 import com.tzikin.pokeapp.data.database.entities.PokemonStatName
-import com.tzikin.pokeapp.data.model.PokemonStats
+import com.tzikin.pokeapp.data.database.entities.PokemonTypeCrossName
+import com.tzikin.pokeapp.data.database.entities.PokemonTypeEntity
+import com.tzikin.pokeapp.data.database.entities.PokemonTypeNameEntity
+import com.tzikin.pokeapp.data.model.PokemonType
 import com.tzikin.pokeapp.data.network.ApiResultHandle
 import com.tzikin.pokeapp.data.network.RequestState
 import com.tzikin.pokeapp.data.repository.PokemonRepository
+import com.tzikin.pokeapp.data.repository.PokemonTypeRepository
 import com.tzikin.pokeapp.domain.GetPokemonUseCase
 import com.tzikin.pokeapp.domain.PokemonCallUseCase
 import com.tzikin.pokeapp.domain.PokemonInformationUsecase
 import com.tzikin.pokeapp.domain.SearchPokemonUsecase
-import com.tzikin.pokeapp.domain.stat.GetPokemonStat
-import com.tzikin.pokeapp.domain.stat.GetPokemonStatAndName
 import com.tzikin.pokeapp.domain.stat.InsertPokemonStatNameUserCase
 import com.tzikin.pokeapp.domain.stat.InsertStatUserCase
+import com.tzikin.pokeapp.domain.type.InsertPokemonTypeNameUseCase
+import com.tzikin.pokeapp.domain.type.InsertPokemonTypeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -31,9 +33,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PokemonListViewModel @Inject constructor(
-    //val loginModel: LoginModel,
     @MainDispatcher private val coroutineDispatcher: CoroutineDispatcher,
-    @IoDispatcher private val coroutineDispatcherIO: CoroutineDispatcher,
     private val pokemonCallUseCase: PokemonCallUseCase,
     private val pokemonInformationUsecase: PokemonInformationUsecase,
     val repository: PokemonRepository,
@@ -41,8 +41,9 @@ class PokemonListViewModel @Inject constructor(
     private val searchPokemonUsecase: SearchPokemonUsecase,
     private val insertPokemonStatUserCase: InsertStatUserCase,
     private val insertPokemonStatNameUserCase: InsertPokemonStatNameUserCase,
-    private val getPokemonStatAndName: GetPokemonStatAndName,
-    private val getPokemonStat: GetPokemonStat
+    private val insertPokemonTypeUseCase: InsertPokemonTypeUseCase,
+    private val insertPokemonTypeNameUseCase: InsertPokemonTypeNameUseCase,
+    private val typeRepository: PokemonTypeRepository
 ) : ViewModel() {
 
     private var _pokemons = MutableLiveData<List<PokemonEntity>>()
@@ -53,13 +54,6 @@ class PokemonListViewModel @Inject constructor(
 
     private var _pokeFound = MutableLiveData<PokemonEntity>()
     val pokeFound: LiveData<PokemonEntity> = _pokeFound
-
-    private var _statAndNameList = MutableLiveData<List<PokemonStatAndName>>()
-    var statAndNameList: LiveData<List<PokemonStatAndName>> = _statAndNameList
-
-    private var _pokemonAndStatList = MutableLiveData<List<PokemonAndStat>>()
-    var pokemonAndStatList: LiveData<List<PokemonAndStat>> = _pokemonAndStatList
-
     fun getPokemon() = liveData(viewModelScope.coroutineContext + coroutineDispatcher) {
         emit(RequestState.Loading)
         when (val response = pokemonCallUseCase.invoke()) {
@@ -84,7 +78,7 @@ class PokemonListViewModel @Inject constructor(
             when (val response = pokemonInformationUsecase.invoke(id)) {
                 is ApiResultHandle.Success -> {
                     response.value?.let {
-                        val value = PokemonEntity(
+                        val entity = PokemonEntity(
                             pokemonName = it.name,
                             number = it.id,
                             pokemonImage = it.images.frontImageUrl,
@@ -95,8 +89,13 @@ class PokemonListViewModel @Inject constructor(
                             stat = it.pokemonStats[0].baseStat,
                             statName = it.pokemonStats[0].stat.statName
                         )
-                        val idResult = repository.insert(value)
-                        _myPokes.value = value
+                        val idResult = repository.insert(entity)
+                        entity.id = idResult
+
+                        _myPokes.value = entity
+
+
+                        insertTypes(it.pokemonType, it.name, idResult)
 
 
                         it.pokemonStats.forEach { stat ->
@@ -139,30 +138,49 @@ class PokemonListViewModel @Inject constructor(
         }
     }
 
-    fun insertStats(values: List<PokemonStats>) {
-        viewModelScope.launch {
-            values.forEach { stat ->
-                insertPokemonStatUserCase.invoke(
-                    PokemonStat(
-                        baseStat = stat.baseStat,
-                        effort = stat.effort,
-                        pokemonId = 1
+    private fun insertTypes(pokemonType2: List<PokemonType>, name: String, idResult: Long) {
+        pokemonType2.forEach { pokemonType ->
+
+            var idPokemonTypeName: Long = 0
+
+            viewModelScope.launch {
+                insertPokemonTypeUseCase.invoke(
+                    PokemonTypeEntity(slot = pokemonType.slot)
+                )
+            }
+
+            viewModelScope.launch {
+                idPokemonTypeName = insertPokemonTypeNameUseCase.invoke(
+                    PokemonTypeNameEntity(
+                        name = pokemonType.type.type,
+                        url = pokemonType.type.urlTypeInfo
                     )
                 )
-                insertPokemonStatNameUserCase.invoke(PokemonStatName(name = stat.stat.statName))
             }
-        }
-    }
 
-    fun getStatAndName(id: Long) {
-        viewModelScope.launch {
-            _statAndNameList.value = getPokemonStatAndName.invoke(id)
-        }
-    }
+            viewModelScope.launch {
 
-    fun getPokemonStat() {
-        viewModelScope.launch {
-            _pokemonAndStatList.value = getPokemonStat.invoke()
+                typeRepository.insertPokemonCross(
+                    PokemonTypeCrossName(
+                        id = idResult,
+                        idTypeName = idPokemonTypeName
+                    )
+                )
+
+                typeRepository.insertPokemonCross(
+                    PokemonTypeCrossName(
+                        id = idResult,
+                        idTypeName = idPokemonTypeName
+                    )
+                )
+
+                Log.i("type: ", pokemonType.type.type)
+                Log.i("pokemon: ", name)
+
+
+            }
+
+
         }
     }
 }

@@ -9,7 +9,7 @@ import androidx.room.Relation
 @Entity(tableName = "pokemon_table")
 data class PokemonEntity(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id") val id: Long = 0,
+    @ColumnInfo(name = "id") var id: Long = 0,
     @ColumnInfo(name = "pokemon_name") val pokemonName: String,
     @ColumnInfo(name = "pokemon_number") val number: Int,
     @ColumnInfo(name = "pokemon_image") val pokemonImage: String,
@@ -30,6 +30,7 @@ data class PokemonAndStat(
     )
     val pokemonStats: List<PokemonStat>
 )
+
 
 @Entity(tableName = "favorite_table")
 data class FavoritePokemon(
