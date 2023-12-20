@@ -10,11 +10,16 @@ import com.tzikin.pokeapp.BaseFragment
 import com.tzikin.pokeapp.R
 import com.tzikin.pokeapp.data.database.entities.PokemonEntity
 import com.tzikin.pokeapp.data.model.Pokemon
+import com.tzikin.pokeapp.data.model.PokemonInformationResponse
 import com.tzikin.pokeapp.data.network.RequestState
 import com.tzikin.pokeapp.databinding.FragmentPokemonListBinding
 import com.tzikin.pokeapp.presentation.adapter.PokemonAdapter
 import com.tzikin.pokeapp.presentation.viewmodel.PokemonListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
@@ -101,9 +106,11 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding>() {
                 }
 
                 is RequestState.Success -> {
-                    response.value.let {
-                        it?.results?.let { it1 -> callToPokemonInformation(it1) }
+
+                    response.value?.results?.let {
+                        callToPokemonInformation(results = it)
                     }
+
                     hideProgressBar()
                 }
 
